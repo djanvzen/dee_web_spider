@@ -10,6 +10,8 @@ class DeeWebJiangsuSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        print(response.text)
-        # article_title = response.xpath("//[@class='default_pgContainer']/li/a/text()")
+        html_tree = response.text.replace('<![CDATA[', '')
+        html_sel = scrapy.Selector(text=html_tree)
+        print(html_tree)
+        # article_title = html_sel.xpath("//recordset/record/")
         # print(article_title)
