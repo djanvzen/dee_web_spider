@@ -15,18 +15,14 @@ class DeeWebJiangsuSpider(XMLFeedSpider, ABC):
     itertag = 'recordset'
 
     def parse_node(self, response, selector):
-        source_li = selector.css("recordset record::text").getall()
-        item = {}
+        source_li = selector.css("recordset record ::text").getall()
         for li in source_li:
-            # 使用正则提取 名称 时间 和 地址
-            pattern = re.search(r'<a href="(.*?)">(.*?)</a>.*<span>(.*?)</span>', li)
-            title_name = pattern.group(2)
-            title_date = pattern.group(3)
-            title_url = "http://sthjt.jiangsu.gov.cn" + str(pattern.group(1))
-
+            # 用正则解析url 我们去里面获取时间标题和内容
+            relative_url = re.search(r'href=\"(.*\.html)\"', li).group(1)
+            article_url = "http://sthjt.jiangsu.gov.cn" + relative_url
             yield scrapy.Request(
-                                    title_url,
-                                    callback=self.parse_article,  # 处理响应的回调函数。
+                                    article_url,
+                                    callback=self.parse,  # 处理响应的回调函数。
                                     # method="GET",  # 默认GET
                                     # headers={},  # 这里的headers不能存放cookie信息。 默认None
                                     # cookies={},  # 默认None
@@ -34,15 +30,15 @@ class DeeWebJiangsuSpider(XMLFeedSpider, ABC):
                                     # dont_filter=False    # 默认False。 (scrapy默认过滤重复的url)
                                 )
 
-    def parse_article(self, response):
-        pass
+    def parse(self, response):
+        title = response.xpath("//h1[@class='title']/text()").extract_first()
+        content = response.xpath("//div[@class='zoom']//text()").extract_first()
+        sub_time = response.xpath("//div[@class='sub-title']/span/text()").extract_first()
+        item_article = {
+            "title": title,
+            "content": content,
+            "sub_time": sub_time
+        }
+        print(item_article)
 
-    # def parse(self, response):
-    #     html_tree = response.text.replace('<![CDATA[', '').replace(']]>', '')
-    #     html_sel = scrapy.Selector(text=html_tree)
-    #     recordset = html_sel.xpath("//recordset")
-    #     print(recordset)
-        # for record in recordset:
-        #     aa = record.xpath("./record/li/a/text()")
-        #     print(aa)
-        # print(article_title)
+
