@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from abc import ABC
 import re
 import scrapy
-from scrapy.spiders import XMLFeedSpider
 
 
-class DeeWebJiangsuSpider(XMLFeedSpider, ABC):
+class DeeWebJiangsuSpider(scrapy.spiders.XMLFeedSpider, ABC):
     name = "dee_web_jiangsu"
     allowed_domains = ["sthjt.jiangsu.gov.cn"]
     start_urls = [
@@ -17,7 +18,6 @@ class DeeWebJiangsuSpider(XMLFeedSpider, ABC):
     def parse_node(self, response, selector):
         source_li = selector.css("recordset record ::text").getall()
         for li in source_li:
-            # 用正则解析url 我们去里面获取时间标题和内容
             relative_url = re.search(r'href=\"(.*\.html)\"', li).group(1)
             article_url = "http://sthjt.jiangsu.gov.cn" + relative_url
             yield scrapy.Request(
@@ -31,14 +31,13 @@ class DeeWebJiangsuSpider(XMLFeedSpider, ABC):
                                 )
 
     def parse(self, response):
+        url = response.request.url
         title = response.xpath("//h1[@class='title']/text()").extract_first()
-        content = response.xpath("//div[@class='zoom']//text()").extract_first()
+        content = response.xpath("//div[@class='zoom']").xpath('string(.)').extract_first()
         sub_time = response.xpath("//div[@class='sub-title']/span/text()").extract_first()
         item_article = {
+            "url": url,
             "title": title,
             "content": content,
             "sub_time": sub_time
         }
-        print(item_article)
-
-
