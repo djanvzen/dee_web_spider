@@ -94,3 +94,10 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 LOG_LEVEL = "ERROR"
+
+# 连接数据MySQL
+MYSQL_HOST = 'localhost'
+MYSQL_USER = 'root'
+MYSQL_PASSWORD = 'yang156122'
+MYSQL_PORT = 3306
+MYSQL_DBNAME = 'test'
