@@ -34,10 +34,15 @@ class DeeWebJiangsuSpider(scrapy.spiders.XMLFeedSpider, ABC):
         url = response.request.url
         title = response.xpath("//h1[@class='title']/text()").extract_first()
         content = response.xpath("//div[@class='zoom']").xpath('string(.)').extract_first()
-        sub_time = response.xpath("//div[@class='sub-title']/span/text()").extract_first()
+        sub_time_str = response.xpath("//div[@class='sub-title']/span/text()").extract_first()
+
+        if '发布时间：' in sub_time_str:
+            sub_time =
+
         item_article = {
             "url": url,
             "title": title,
             "content": content,
             "sub_time": sub_time
         }
+        yield item_article

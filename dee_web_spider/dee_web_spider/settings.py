@@ -96,8 +96,13 @@ FEED_EXPORT_ENCODING = "utf-8"
 LOG_LEVEL = "ERROR"
 
 # 连接数据MySQL
-MYSQL_HOST = 'localhost'
-MYSQL_USER = 'root'
+MYSQL_HOST = '192.168.252.131'
+MYSQL_USER = 'crm'
 MYSQL_PASSWORD = 'yang156122'
-MYSQL_PORT = 3306
-MYSQL_DBNAME = 'test'
+MYSQL_PORT = 3209
+MYSQL_DBNAME = ''
+
+# 关键字设置
+KEYWORDS_B = ['无废城市', '新污染物', '非现场监管', '智慧园区', '工业园', '化工园', '工业集中区', '环境信息化']
+KEYWORDS_S = ['固废', '危废', '医废', '区域平台', '无废城市']
+KEYWORDS_M = ['涉废', '无废城市', '新污染物']
