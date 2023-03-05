@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from abc import ABC
 import re
+from abc import ABC
+from datetime import datetime
 import scrapy
 
 
@@ -37,7 +38,9 @@ class DeeWebJiangsuSpider(scrapy.spiders.XMLFeedSpider, ABC):
         sub_time_str = response.xpath("//div[@class='sub-title']/span/text()").extract_first()
 
         if '发布时间：' in sub_time_str:
-            sub_time =
+            sub_time = datetime.strptime(sub_time_str.replace('发布时间：', ''), '%Y-%m-%d %H:%M')
+        else:
+            sub_time = None
 
         item_article = {
             "url": url,
