@@ -97,10 +97,10 @@ LOG_LEVEL = "ERROR"
 
 # 连接数据MySQL
 MYSQL_HOST = '192.168.252.131'
-MYSQL_USER = 'crm'
-MYSQL_PASSWORD = 'yang156122'
+MYSQL_USER = 'rpa'
+MYSQL_PASSWORD = 'sckj8888'
 MYSQL_PORT = 3209
-MYSQL_DBNAME = ''
+MYSQL_DBNAME = 'shencai-crm'
 
 # 关键字设置
 KEYWORDS_B = ['无废城市', '新污染物', '非现场监管', '智慧园区', '工业园', '化工园', '工业集中区', '环境信息化']

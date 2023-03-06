@@ -17,6 +17,7 @@ class DeeWebJiangsuSpider(scrapy.spiders.XMLFeedSpider, ABC):
     itertag = 'recordset'
 
     def parse_node(self, response, selector):
+        # 数据存放在<CDATA>下，不能直接通过xpath解析，需要直接拿到文章url
         source_li = selector.css("recordset record ::text").getall()
         for li in source_li:
             relative_url = re.search(r'href=\"(.*\.html)\"', li).group(1)
@@ -32,20 +33,24 @@ class DeeWebJiangsuSpider(scrapy.spiders.XMLFeedSpider, ABC):
                                 )
 
     def parse(self, response):
+        # 解析文章
         url = response.request.url
         title = response.xpath("//h1[@class='title']/text()").extract_first()
         content = response.xpath("//div[@class='zoom']").xpath('string(.)').extract_first()
         sub_time_str = response.xpath("//div[@class='sub-title']/span/text()").extract_first()
 
         if '发布时间：' in sub_time_str:
-            sub_time = datetime.strptime(sub_time_str.replace('发布时间：', ''), '%Y-%m-%d %H:%M')
+            # sub_time = datetime.strptime(sub_time_str.replace('发布时间：', ''), '%Y-%m-%d %H:%M')
+            sub_time = sub_time_str.replace('发布时间：', '')
         else:
             sub_time = None
 
-        item_article = {
+        item = {
             "url": url,
             "title": title,
             "content": content,
-            "sub_time": sub_time
+            "sub_time": sub_time,
+            "grab_time": datetime.now().strftime('%Y-%m-%d')
         }
-        yield item_article
+        # item数据类型扔给pipline处理
+        yield item
