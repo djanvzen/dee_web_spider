@@ -96,11 +96,11 @@ FEED_EXPORT_ENCODING = "utf-8"
 LOG_LEVEL = "ERROR"
 
 # 连接数据MySQL
-MYSQL_HOST = '192.168.252.131'
-MYSQL_USER = 'rpa'
-MYSQL_PASSWORD = 'sckj8888'
-MYSQL_PORT = 3209
-MYSQL_DBNAME = 'shencai-crm'
+MYSQL_HOST = '1.1.1.1'
+MYSQL_USER = '*'
+MYSQL_PASSWORD = '*'
+MYSQL_PORT = 3306
+MYSQL_DBNAME = '*'
 
 # 关键字设置
 KEYWORDS_B = ['无废城市', '新污染物', '非现场监管', '智慧园区', '工业园', '化工园', '工业集中区', '环境信息化']
