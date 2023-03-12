@@ -16,7 +16,8 @@ from twisted.enterprise import adbapi
 
 class DeeWebSpiderPipeline:
     def __init__(self, db_pool):
-        self.db_pool = db_pool
+        # self.db_pool = db_pool
+        pass
 
     @classmethod
     def from_settings(cls, settings):
@@ -66,15 +67,17 @@ class DeeWebSpiderPipeline:
                 "source_name": spider.name,
                 "keywords": keywords,
                 "id": hashlib.md5(item["url"].encode('utf-8')).hexdigest(),
-                "source_type": '03',
-                "bus_status": 1,
+                "source_type": '01',
+                "bus_status": 0,
                 "create_time": datetime.now().strftime('%Y-%m-%d'),
                 "create_by": 'dee_web_spider',
                 "sign_type": 'PRI',
                 "delete_flag": '0',
-                "data_type": 'D'
+                "data_type": 'D',
+                "department_name": spider.department_name,
+                "region_code": spider.region_code
             }
-
+            print(sql_item)
             logging.warning(sql_item)
             # 对象拷贝，深拷贝，这里是解决数据重复问题！！！
             async_item = copy.deepcopy(sql_item)

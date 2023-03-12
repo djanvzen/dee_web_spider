@@ -8,6 +8,8 @@ import scrapy
 
 class DeeWebJiangsuSpider(scrapy.spiders.XMLFeedSpider, ABC):
     name = "dee_web_jiangsu"
+    department_name = "江苏省生态环境厅"
+    region_code = "320000"
     allowed_domains = ["sthjt.jiangsu.gov.cn"]
     start_urls = [
         "http://sthjt.jiangsu.gov.cn/col/col83545",
